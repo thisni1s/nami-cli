@@ -1,29 +1,49 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
+	namigo "github.com/thisni1s/nami-go"
+	namiTypes "github.com/thisni1s/nami-go/types"
 )
 
 // nameCmd represents the name command
 var nameCmd = &cobra.Command{
 	Use:   "name",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Search for Members by Name",
+	Long: `Returns all Members whos name match the specified name.
+Both fName and lName are optional, but one is required
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Example:
+  nami-cli search name --fName John --lName Doe`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("name called")
+        if *fName == "" && *lName == "" {
+            log.Fatal("At least one Flag is required!")
+        }
+		Login()
+		var searchCfg namiTypes.SearchValues
+		if *fName != "" {
+			searchCfg.Vorname = *fName
+		}
+		if *lName != "" {
+			searchCfg.Nachname = *lName
+		}
+		list, err := namigo.Search(searchCfg)
+		if err != nil {
+			log.Println("Failed to get Members for provided Name!")
+			log.Fatal(err)
+		}
+		PrintSearchResult(list)
+
 	},
 }
+
+var fName *string
+var lName *string
 
 func init() {
 	searchCmd.AddCommand(nameCmd)
@@ -36,5 +56,7 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// nameCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	fName = nameCmd.Flags().StringP("fName", "f", "", "First name (if any)")
+	lName = nameCmd.Flags().StringP("lName", "l", "", "Last name (if any)")
+    nameCmd.MarkFlagsOneRequired("fName", "lName")
 }

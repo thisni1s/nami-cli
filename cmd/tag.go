@@ -1,27 +1,41 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
-
+	"log"
 	"github.com/spf13/cobra"
+	namigo "github.com/thisni1s/nami-go"
+	namiTypes "github.com/thisni1s/nami-go/types"
 )
 
 // tagCmd represents the tag command
 var tagCmd = &cobra.Command{
-	Use:   "tag",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "tag [tagID]",
+	Short: "Search Members by Tag",
+	Long: `Search for Members using the ID of a Tag.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Example:
+  nami-cli search tag 1337`,
+	Args: cobra.MatchAll(cobra.ExactArgs(1)),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tag called")
+		tag := args[0]
+		//tag, err := strconv.Atoi(args[0])
+		//if err != nil {
+		//    log.Printf("Tag must be number!")
+		//    log.Fatal(err)
+		//}
+        Login()
+		list, err := namigo.Search(namiTypes.SearchValues{
+			TagID: tag,
+		})
+		if err != nil {
+			log.Println("Failed to get Members for provided Tag!")
+			log.Fatal(err)
+		}
+        PrintSearchResult(list)
+
 	},
 }
 

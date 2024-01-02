@@ -29,13 +29,15 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "nami-cli",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Command Line Application for interacting with the DPSG NaMi",
+	Long: `nami-cli allows you to interact with the DPSG NaMi and get information about your Members.
+A config file containing your credentials is needed for this to work.
+By default the file should be located at ".nami.yml" and look like this:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+username: 133337 # your nami id
+password: verysecure
+gruppierung: 010101 # your "Stammesnummer"
+`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -50,6 +52,7 @@ func Execute() {
 	}
 }
 
+var config namiTypes.Config 
 func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
@@ -66,17 +69,26 @@ func init() {
         log.Fatal(err)
 	}
 
-	var data namiTypes.Config 
-	err = yaml.Unmarshal(file, &data)
+	err = yaml.Unmarshal(file, &config)
 	if err != nil {
         log.Println("Failed to read config file!")
         log.Fatal(err)
 	}
 
-    log.Printf("Username: %s Password: %s Gruppierung: %s", data.Username, data.Password, data.Gruppierung)
-
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func Login() {
+    err := namigo.Login(config.Username, config.Password)
+    if err != nil {
+        log.Println("Failed to login!")
+        log.Fatal(err)
+    }
+}
+
+func GetGroupId() string {
+    return config.Gruppierung
 }
