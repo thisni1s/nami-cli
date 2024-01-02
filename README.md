@@ -2,6 +2,8 @@
 
 nami-cli allows you to interact with the DPSG NaMi and get information about your Members.
 
+It is written in Go and uses the [nami-go](https://github.com/thisni1s/nami-go) library for interacting with the NaMi and [Cobra](https://github.com/spf13/cobra) for building the CLI Application. 
+
 ## Configuration
 
 A config file containing your credentials is needed for this to work.
@@ -56,6 +58,8 @@ Different filters are provided with the use of subcommands.
 ### Global Flags:
 - --config string   config file (default is .nami.yaml)
 - -h, --help            help for nami-cli
+
+
 
 
 
