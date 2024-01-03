@@ -8,7 +8,7 @@ It is written in Go and uses the [nami-go](https://github.com/thisni1s/nami-go) 
 
 A config file containing your credentials is needed for this to work.
 
-By default the file should be located at ```.nami.yml``` and look like this:
+By default the file should be located at ```~/.nami.yml``` and look like this:
 ```
 username: 133337 # your nami id
 password: verysecure
@@ -72,7 +72,7 @@ with the use of the ```--email``` ```--full``` or ```--json``` flags.
 - -h, --help    help for search
 
 ### Global Flags:
-- --config string   config file (default is .nami.yaml)
+- --config string   config file (default is ~/.nami.yaml)
 - -h, --help            help for nami-cli
 
 

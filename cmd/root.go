@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -32,7 +33,7 @@ var rootCmd = &cobra.Command{
 	Short: "Command Line Application for interacting with the DPSG NaMi",
 	Long: `nami-cli allows you to interact with the DPSG NaMi and get information about your Members.
 A config file containing your credentials is needed for this to work.
-By default the file should be located at ".nami.yml" and look like this:
+By default the file should be located at "~/.nami.yml" and look like this:
 
 username: 133337 # your nami id
 password: verysecure
@@ -58,9 +59,13 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	var cfgFile string
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is .nami.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ~/.nami.yaml)")
 	if cfgFile == "" {
-		cfgFile = ".nami.yml"
+        home, err := os.UserHomeDir()
+        if err != nil {
+            log.Fatal("Error finding your home directory!")
+        }
+        cfgFile = fmt.Sprintf("%s/.nami.yml", home)
 	}
 
 	file, err := os.ReadFile(cfgFile)
