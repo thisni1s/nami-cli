@@ -20,7 +20,7 @@ gruppierung: 010101 # your "Stammesnummer"
 nami-cli [command]
 
 nami-cli info 133337                 # Prints info about Member with ID 133337
-nami-cli search name -f John -l Doe  # Searches for Members with first name "John" and last name "Doe"
+nami-cli search name John Doe        # Searches for Members with first name "John" and last name "Doe"
 nami-cli search occupation leiter    # Searches for Members with occupation (Tätigkeit) "Leiter"
 nami-cli search subdivision rover    # Searches for Members with subdivision (Untergliederung) "Rover"
 nami-cli search tag 1337             # Searches for Members with TagId "1337"
