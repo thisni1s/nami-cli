@@ -40,50 +40,8 @@ Examples:
   nami-cli search occupation mgl`,
 	ValidArgs: []string{"mgl", "elternv", "leiter", "delegiert", "beobachter", "kurat", "vorsitz", "admin", "sonstmit", "akmgl", "gf", "kassierer", "prüfer", "matwart", "schnupper", "passiv", "sonstmgl", "sonstext"},
 	Run: func(cmd *cobra.Command, args []string) {
-		var ugId namiTypes.TAETIGKEIT
-		switch args[0] {
-		case "mgl":
-			ugId = namiTypes.TG_MITGLIED
-		case "elternv":
-			ugId = namiTypes.TG_ELTERNVERTRETUNG
-		case "leiter":
-			ugId = namiTypes.TG_LEITER
-		case "delegiert":
-			ugId = namiTypes.TG_DELEGIERT
-		case "beobachter":
-			ugId = namiTypes.TG_BEOBACHTER
-		case "kurat":
-			ugId = namiTypes.TG_KURAT
-		case "vorsitz":
-			ugId = namiTypes.TG_VORSITZ
-		case "admin":
-			ugId = namiTypes.TG_ADMIN
-		case "sonstmit":
-			ugId = namiTypes.TG_SONSTMITARBEITER
-		case "akmgl":
-			ugId = namiTypes.TG_MITGLIEDAK
-		case "gf":
-			ugId = namiTypes.TG_GESCHÄFTSFÜHRER
-		case "kassierer":
-			ugId = namiTypes.TG_KASSIERER
-		case "prüfer":
-			ugId = namiTypes.TG_KASSENPRÜFER
-		case "matwart":
-			ugId = namiTypes.TG_MATWART
-		case "schnupper":
-			ugId = namiTypes.TG_SCHNUPPER
-		case "passiv":
-			ugId = namiTypes.TG_PASSIV
-		case "sonstmgl":
-			ugId = namiTypes.TG_SONSTMITGLIED
-		case "sonstext":
-			ugId = namiTypes.TG_SONSTEXT
-		default:
-			log.Fatal("You need to provide an occupation!")
-		}
-
+		ugId := CheckOccupationArg(args[0])
 		Login()
-
 		list, err := namigo.Search(namiTypes.SearchValues{
 			TaetigkeitID: ugId,
 		})

@@ -22,24 +22,7 @@ Example:
 	Args:      cobra.ExactArgs(1),
 	ValidArgs: []string{"woe", "juffi", "pfadi", "rover", "stavo", "sonst"},
 	Run: func(cmd *cobra.Command, args []string) {
-		var ugId namiTypes.UNTERGLIEDERUNG
-		switch args[0] {
-		case "woe":
-			ugId = namiTypes.UG_WOE
-		case "juffi":
-			ugId = namiTypes.UG_JUFFI
-		case "pfadi":
-			ugId = namiTypes.UG_PFADI
-		case "rover":
-			ugId = namiTypes.UG_ROVER
-		case "stavo":
-			ugId = namiTypes.UG_STAVO
-		case "sonst":
-			ugId = namiTypes.UG_SONST
-		default:
-            log.Fatal("You need to provide a subdivison!")
-		}
-
+        ugId := CheckSubdivisionArg(args[0])
 		Login()
 
 		list, err := namigo.Search(namiTypes.SearchValues{
