@@ -56,7 +56,7 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	fName = nameCmd.Flags().StringP("fName", "f", "", "First name (if any)")
+	fName = nameCmd.Flags().StringP("fName", "v", "", "First name (if any)")
 	lName = nameCmd.Flags().StringP("lName", "l", "", "Last name (if any)")
     nameCmd.MarkFlagsOneRequired("fName", "lName")
 }
