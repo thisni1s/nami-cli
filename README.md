@@ -24,6 +24,7 @@ nami-cli search name -f John -l Doe  # Searches for Members with first name "Joh
 nami-cli search occupation leiter    # Searches for Members with occupation (Tätigkeit) "Leiter"
 nami-cli search subdivision rover    # Searches for Members with subdivision (Untergliederung) "Rover"
 nami-cli search tag 1337             # Searches for Members with TagId "1337"
+namci-cli search -n John -l Doe -o leiter -d rover -t 1337
 
 ```
 
@@ -43,7 +44,10 @@ The output is YAML but can be switched to indented JSON with the --json flag.
 
 ### Search
 Search Nami for Members visible to the logged in User.
-Different filters are provided with the use of subcommands.
+Different filters are provided with the use of subcommands or flags.  
+For possible flag values consult the help command of the specific sub command.  
+Normal Output is of the form ```ID: FirstName LastName``` but can be changed to mailbox, YAML or JSON format
+with the use of the ```--email``` ```--full``` or ```--json``` flags.
 
 #### Available Sub-Commands:
 - name        Search for Members by Name
@@ -52,6 +56,18 @@ Different filters are provided with the use of subcommands.
 - tag         Search Members by Tag
 
 #### Flags:
+- -n, --fname string         First name (if any)
+- -l, --lname string         Last name (if any)
+- -o, --occupation string    Occupation (if any) for options see 'occupation' sub command help
+- -d, --subdivision string   Subdivision (if any) for options see 'subdivision' sub command help
+- -t, --tag string           Tag (if any)
+- -e, --email                Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!) 
+- -f, --full                 Fully output found members (in YAML format)
+- -j, --json                 Output found members in JSON format
+- -h, --help                 help for search
+
+
+
 - -e, --email   Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!)  
 - -h, --help    help for search
 

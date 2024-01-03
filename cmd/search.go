@@ -75,8 +75,8 @@ func init() {
 	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	firstname= searchCmd.Flags().StringP("fname", "n", "", "First name (if any)")
 	lastname = searchCmd.Flags().StringP("lname", "l", "", "Last name (if any)")
-	occupation = searchCmd.Flags().StringP("occupation", "o", "", "Occupation (if any)")
-	subdivision = searchCmd.Flags().StringP("subdivision", "d", "", "Subdivision (if any)")
+	occupation = searchCmd.Flags().StringP("occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
+	subdivision = searchCmd.Flags().StringP("subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
 	tag = searchCmd.Flags().StringP("tag", "t", "", "Tag (if any)")
 	searchCmd.MarkFlagsOneRequired("fname", "lname", "occupation", "subdivision", "tag")
 }
