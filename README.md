@@ -66,14 +66,9 @@ with the use of the ```--email``` ```--full``` or ```--json``` flags.
 - -j, --json                 Output found members in JSON format
 - -h, --help                 help for search
 
-
-
-- -e, --email   Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!)  
-- -h, --help    help for search
-
 ### Global Flags:
 - --config string   config file (default is ~/.nami.yaml)
-- -h, --help            help for nami-cli
+- -h, --help            help for nami-cli
 
 
 
