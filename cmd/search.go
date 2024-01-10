@@ -84,8 +84,14 @@ func init() {
 func PrintSearchResult(members []namiTypes.SearchMember) {
 	if *email {
 		for _, mem := range members {
-			if mem.Email != "" {
-				fmt.Printf("%s %s <%s> \n", mem.Vorname, mem.Nachname, mem.Email)
+			if mem.Email != "" || mem.EmailVertretungsberechtigter != "" {
+                var mail string 
+                if mem.Email != "" {
+                    mail = mem.Email
+                } else {
+                    mail = mem.EmailVertretungsberechtigter
+                }
+                fmt.Printf("%s %s <%s> \n", mem.Vorname, mem.Nachname, mail)
 			}
 		}
 	} else if *jsono {
