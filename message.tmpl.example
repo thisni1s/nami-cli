@@ -1,0 +1,11 @@
+Hallo {{ .Name }},
+
+Ihr Kind : {{ .ChildName }}
+
+Geld: {{ .Amount }}€
+
+Referenz: {{ .Reference }}
+
+
+Gut Pfad!
+
