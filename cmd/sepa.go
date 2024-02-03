@@ -7,9 +7,9 @@ import (
 	"github.com/thisni1s/nami-go"
 	namiTypes "github.com/thisni1s/nami-go/types"
 	"gopkg.in/gomail.v2"
-	"gopkg.in/yaml.v3"
+//	"gopkg.in/yaml.v3"
 	"log"
-	"os"
+//	"os"
 	"text/template"
 )
 
@@ -92,17 +92,19 @@ func init() {
 	var cfgHandle string
 	mailCmd.Flags().StringVar(&cfgHandle, "mailCfg", "", "E-Mail config file")
 
+    /*
 	file, err := os.ReadFile(cfgHandle)
 	if err != nil {
-		log.Println("Failed to read E-Mail config file!")
+		log.Println("Failed to read E-Mail config file!!")
 		log.Fatal(err)
 	}
 
 	err = yaml.Unmarshal(file, &mailCfg)
 	if err != nil {
-		log.Println("Failed to read E-Mail config file!")
+		log.Println("Failed to read E-Mail config file!!")
 		log.Fatal(err)
 	}
+    */
 
 }
 

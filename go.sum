@@ -1,3 +1,7 @@
+github.com/almerlucke/go-iban v0.0.0-20220324081643-09bcab81b879 h1:xjKaRnbsrUym8HlsMOoDuA6jJKx1KMVbwvISBMy340k=
+github.com/almerlucke/go-iban v0.0.0-20220324081643-09bcab81b879/go.mod h1:BOrdqbp9ZIsyviKexs6Hkku/k3oHH0oBeejgQHdA7RE=
+github.com/apsl/sepakit v0.1.0 h1:IRVgMKulePZeYBj7GEtBUdO4ldx6yf3SuD8aKP0Mbt8=
+github.com/apsl/sepakit v0.1.0/go.mod h1:DsJn/dZrdN6adz19j3iwS2Hl5ZSE5L68RpC9P8ySYOQ=
 github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
@@ -8,6 +12,8 @@ github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
 github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
 github.com/thisni1s/nami-go v0.0.0-20240102230121-d0e0afb08bb5 h1:xYKAcjHkRMtyZTIB/z4tG8+HNmqq63j52rkq+2xy+Ks=
 github.com/thisni1s/nami-go v0.0.0-20240102230121-d0e0afb08bb5/go.mod h1:fRdMj2DI2F76oWX+G6iC1BDlR+HgK/X4MWFVOHa2F7M=
+golang.org/x/text v0.3.0 h1:g61tztE5qeGQ89tm6NTjjM9VPIm088od1l6aSorWRWg=
+golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc h1:2gGKlE2+asNV9m7xrywl36YYNnBG5ZQ0r/BOOxqPpmk=
 gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc/go.mod h1:m7x9LTH6d71AHyAX77c9yqWCCa3UKHcVEj9y7hAtKDk=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
