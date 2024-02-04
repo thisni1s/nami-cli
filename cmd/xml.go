@@ -131,7 +131,7 @@ func genSepaXml(list *[]namiTypes.Member) {
 	paym.Method = "DD"
 	paym.RequestedCollectionDate = sepaCfg.CollectionDate
 
-	helpers.ReadBankInfo("./bics.json")
+	helpers.ReadBankInfo()
 
 	for _, member := range *list {
 		valid := verifyMandate(&member)

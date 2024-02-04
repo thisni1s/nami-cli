@@ -1,10 +1,10 @@
 package helpers
 
 import (
+	"embed"
 	"encoding/json"
 	"errors"
 	"log"
-	"os"
 )
 
 type BankInfo struct {
@@ -17,10 +17,13 @@ type BankInfo struct {
 	ChecksumAlgo string `json:"checksum_algo"`
 }
 
+//go:embed bics.json
+var rawBics embed.FS
+
 var banks []BankInfo
 
-func ReadBankInfo(path string) {
-    content, err := os.ReadFile(path)
+func ReadBankInfo() {
+    content, err := rawBics.ReadFile("bics.json")
     if err != nil {
         log.Fatal("Error when opening Bics file: ", err)
     }
