@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -23,25 +20,25 @@ The output is YAML but can be switched to indented JSON with the --json flag.
 Examples:
   nami-cli info 133337
   nami-cli info 133337 --json`,
-    Args: cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-        Login()
-        mem, err := namigo.GetMemberDetails(args[0], GetGroupId())
-        if err != nil {
-            log.Println("Error retrieving info about user!")
-            log.Fatal(err)
-        }
-        var s []byte
-        if !*asJson {
-            s, _ = yaml.Marshal(mem)
-        } else {
-            s, _ = json.MarshalIndent(mem, "", "    ")
-        }
-        fmt.Printf("%s \n", s)
+		Login()
+		mem, err := namigo.GetMemberDetails(args[0], GetGroupId())
+		if err != nil {
+			log.Println("Error retrieving info about user!")
+			log.Fatal(err)
+		}
+		var s []byte
+		if !*asJson {
+			s, _ = yaml.Marshal(mem)
+		} else {
+			s, _ = json.MarshalIndent(mem, "", "    ")
+		}
+		fmt.Printf("%s \n", s)
 	},
 }
 
-var asJson* bool
+var asJson *bool
 
 func init() {
 	rootCmd.AddCommand(infoCmd)

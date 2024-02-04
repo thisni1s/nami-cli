@@ -1,0 +1,12 @@
+Username: test@example.org
+Fromname: John Doe
+Password: verysecure
+Server: mail.example.org
+Subject: SEPA Pre Notification
+Template: template.tmpl
+FeeFull: 60.00
+FeeFam: 40.00
+FeeSocial: 20.00
+FeeLeader: 20.00
+FeePassive: 20.00
+

@@ -54,6 +54,7 @@ func Execute() {
 }
 
 var config namiTypes.Config 
+
 func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
@@ -88,6 +89,7 @@ func init() {
 
 func Login() {
     err := namigo.Login(config.Username, config.Password)
+    fmt.Println("Logged in as user: ", config.Username)
     if err != nil {
         log.Println("Failed to login!")
         log.Fatal(err)
