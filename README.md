@@ -14,6 +14,8 @@ username: 133337 # your nami id
 password: verysecure
 gruppierung: 010101 # your "Stammesnummer"
 ```
+Different Commands may neeed additional config files!
+
 
 ## Usage
 ```
@@ -25,12 +27,16 @@ nami-cli search occupation leiter    # Searches for Members with occupation (Tä
 nami-cli search subdivision rover    # Searches for Members with subdivision (Untergliederung) "Rover"
 nami-cli search tag 1337             # Searches for Members with TagId "1337"
 nami-cli search -n John -l Doe -o leiter -d rover -t 1337    # Combine all above filters into one using flags
+nami-cli mail -t 1337 --mailCfg mailconfig.yml # Send E-Mail to all members with tag 1337
+nami-cli sepa --all --fee 20.00 --out res.xml # Generate SEPA XML File for all members for 20.00€
 
 ```
 
 ### Available Commands:
 - info        Prints information about a specified Member
 - search      Search for different kinds of Members in Nami
+- mail        Send E-Mails to different Members
+- sepa        Generate SEPA XML files.
 - completion  Generate the autocompletion script for the specified shell
 - help        Help about any command
 
@@ -65,6 +71,42 @@ with the use of the ```--email``` ```--full``` or ```--json``` flags.
 - -f, --full                 Fully output found members (in YAML format)
 - -j, --json                 Output found members in JSON format
 - -h, --help                 help for search
+
+### Sepa
+Generate SEPA XML file for specified users
+You can specify users with the ```--tag```, ```--occupation```, ```--subdivision``` and ```--all``` tags just like the search.
+Fixed fees can be set with ```--fee```.
+Output file needs to be specified with ```--out```
+A special SEPA config file is needed! Location can be specified with ```--sepaConfig``` See ```sepa.yml.example``` for an example!
+
+#### Flags
+- -a, --all                  Create file for ALL members
+- --fee float            Fixed Fee, ignore member fees and set a fixed fee
+- -h, --help                 help for sepa
+- -o, --occupation string    Occupation (if any) for options see 'occupation' sub command help
+- --out string           Output file
+- -s, --sepaConfig string    Path to the sepa config, default is ~/sepa.yml
+- -d, --subdivision string   Subdivision (if any) for options see 'subdivision' sub command help
+- -t, --tag string           Tag (if any)
+
+### Mail
+Send E-Mails to different Members.
+Specify whom to send the E-Mails to using the flags!
+E-Mail content can be defined with a template file. 
+In it you have access to all Fields of a Member, plus their Beitrag with ```.FixBeitrag```
+Specify everything related to the E-Mail in the ```mailconfig.yml``` file!
+A special Mail config file is needed! Location can be specified with ```--mailCfg``` See ```.mailconfig.yml.example``` for an example!
+A special Template file is needed! Location can be specified within the ```mailconfig.yml``` See ```message.tmpl.example``` for an example!
+
+#### Flags
+- -a, --all                  Send E-Mail to ALL members
+- -h, --help                 help for mail
+- --mailCfg string       E-Mail config file. Defaults to ~/.mailconfig.yml
+- -o, --occupation string    Occupation (if any) for options see 'occupation' sub command help
+- -d, --subdivision string   Subdivision (if any) for options see 'subdivision' sub command help
+- -t, --tag string           Tag (if any)
+
+
 
 ### Global Flags:
 - --config string   config file (default is ~/.nami.yaml)
