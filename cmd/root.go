@@ -89,7 +89,7 @@ func init() {
 
 func Login() {
     err := namigo.Login(config.Username, config.Password)
-    log.Println("logged in as user: ", config.Username)
+    fmt.Println("Logged in as user: ", config.Username)
     if err != nil {
         log.Println("Failed to login!")
         log.Fatal(err)

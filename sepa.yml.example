@@ -1,0 +1,14 @@
+# SEPA CONFIG FILE
+creditorid: DE11ZZZ00002233440
+creditorname: Stamm St. Test
+creditoriban: DE11222200000001222233
+creditorbic: SPKKDE00XXX
+
+collectiondate: 2024-03-01
+collectioninfo: Mitgliedschaft DPSG
+
+feefull: 20.00
+feefamily: 20.00
+feesocial: 20.00
+feeleader: 20.00
+feepassive: 20.00

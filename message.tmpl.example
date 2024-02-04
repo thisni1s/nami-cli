@@ -1,10 +1,10 @@
-Hallo {{ .Name }},
+Hallo {{ .Kontoverbindung.Kontoinhaber }},
 
-Ihr Kind : {{ .ChildName }}
+Ihr Kind : {{ .Vorname }} {{ .Nachname }}
 
-Geld: {{ .Amount }}€
+Geld: {{ .FixBeitrag }}€
 
-Referenz: {{ .Reference }}
+Geburtstag: {{ .Geburtsdatum }}
 
 
 Gut Pfad!
