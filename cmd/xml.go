@@ -150,7 +150,7 @@ func genSepaXml(list *[]namiTypes.Member) {
 				ID:             "NOTPROVIDED",
 				MandateID:      fmt.Sprintf("%d-%s-%s", member.MitgliedsNummer, strings.ReplaceAll(member.Vorname, " ", ""), member.Nachname),
 				Date:           sepadebit.Date(date),
-				RemittanceInfo: sepaCfg.CollectionInfo,
+				RemittanceInfo: fmt.Sprintf("%s %s %s", sepaCfg.CollectionInfo, member.Vorname, member.Nachname),
 				Debtor: sepadebit.Debtor{
 					Name: member.Kontoverbindung.Kontoinhaber,
 					BIC:  member.Kontoverbindung.Bic,
