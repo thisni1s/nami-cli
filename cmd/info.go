@@ -22,6 +22,7 @@ Examples:
   nami-cli info 133337 --json`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+        readConfig()
 		Login()
 		mem, err := namigo.GetMemberDetails(args[0], GetGroupId())
 		if err != nil {

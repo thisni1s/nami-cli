@@ -27,7 +27,8 @@ Examples:
   nami-cli mail --mailCfg /home/user/mailconfig.yml
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		cpFlags()
+        readConfig()
+		//cpFlags()
 		readMailCfg()
 		list := findMembers()
 		fullList := getMemberDetails(list)
@@ -39,10 +40,10 @@ Examples:
 
 var mailCfgHandle *string
 var mailCfg SepaMailConfig
-var mailTag *string
-var mailOcc *string
-var mailSub *string
-var mailSa *bool
+//var mailTag *string
+//var mailOcc *string
+//var mailSub *string
+//var mailSa *bool
 
 func sendMail(list *[]namiTypes.Member) {
 	d := gomail.NewDialer(mailCfg.Server, 587, mailCfg.Username, mailCfg.Password)
@@ -116,12 +117,12 @@ func calcMailAmount(beitragsart int, taetigkeit string, mgltype string) float64 
 }
 
 // no idea why this is neccessary but it does not work without it
-func cpFlags() {
-	*tag = *mailTag
-	*occupation = *mailOcc
-	*subdivision = *mailSub
-	*searchAll = *mailSa
-}
+//func cpFlags() {
+//	tag = *mailTag
+//	occupation = *mailOcc
+//	subdivision = *mailSub
+//	searchAll = *mailSa
+//}
 
 type SepaMailConfig struct {
 	Username   string  `yaml:"Username"`
@@ -162,10 +163,10 @@ func readMailCfg() {
 func init() {
 	rootCmd.AddCommand(mailCmd)
 
-	mailOcc = mailCmd.Flags().StringP("occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
-	mailSub = mailCmd.Flags().StringP("subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
-	mailTag = mailCmd.Flags().StringP("tag", "t", "", "Tag (if any)")
-	mailSa = mailCmd.Flags().BoolP("all", "a", false, "Send E-Mail to ALL members")
+	mailCmd.Flags().StringVarP(&occupation, "occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
+	mailCmd.Flags().StringVarP(&subdivision, "subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
+	mailCmd.Flags().StringVarP(&tag, "tag", "t", "", "Tag (if any)")
+	mailCmd.Flags().BoolVarP(&searchAll, "all", "a", false, "Send E-Mail to ALL members")
 
 	mailCmd.MarkFlagsOneRequired("occupation", "subdivision", "tag", "all")
 	mailCmd.MarkFlagsMutuallyExclusive("all", "occupation")

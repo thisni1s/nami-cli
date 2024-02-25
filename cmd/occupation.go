@@ -37,11 +37,14 @@ Examples:
   nami-cli search occupation mgl`,
 	ValidArgs: []string{"mgl", "elternv", "leiter", "delegiert", "beobachter", "kurat", "vorsitz", "admin", "sonstmit", "akmgl", "gf", "kassierer", "prüfer", "matwart", "schnupper", "passiv", "sonstmgl", "sonstext"},
 	Run: func(cmd *cobra.Command, args []string) {
+        readConfig()
 		ugId := CheckOccupationArg(args[0])
 		Login()
-		list, err := namigo.Search(namiTypes.SearchValues{
-			TaetigkeitID: ugId,
-		})
+        sValues := namiTypes.SearchValues{
+            TaetigkeitID: ugId,
+        }
+        addMemberTypes(&sValues)
+		list, err := namigo.Search(sValues)
 		if err != nil {
 			log.Println("Failed to get Members for provided Tag!")
 			log.Fatal(err)

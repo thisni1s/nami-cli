@@ -37,6 +37,7 @@ Examples:
   nami-cli sepa --all --fee 20.00 --out result.xml
 `,
 	Run: func(cmd *cobra.Command, args []string) {
+        readConfig()
 		readSepaCfg()
 		list := findMembers()
 		fullList := getMemberDetails(list)
@@ -47,14 +48,15 @@ Examples:
 
 func findMembers() *[]namiTypes.SearchMember {
 	var sValues namiTypes.SearchValues
-	if *occupation != "" {
-		sValues.TaetigkeitID = CheckOccupationArg(*occupation)
+    addMemberTypes(&sValues)
+	if occupation != "" {
+		sValues.TaetigkeitID = CheckOccupationArg(occupation)
 	}
-	if *subdivision != "" {
-		sValues.UntergliederungID = CheckSubdivisionArg(*subdivision)
+	if subdivision != "" {
+		sValues.UntergliederungID = CheckSubdivisionArg(subdivision)
 	}
-	if *tag != "" {
-		sValues.TagID = *tag
+	if tag != "" {
+		sValues.TagID = tag
 	}
 	Login()
 	fmt.Println("Finding members")
@@ -291,7 +293,7 @@ type SepaConfig struct {
 var fixedFee *float64
 var sepaCfg SepaConfig
 var outFile *string
-var searchAll *bool
+var searchAll bool
 var cfgFile *string
 
 func readSepaCfg() {
@@ -321,10 +323,13 @@ func readSepaCfg() {
 func init() {
 	rootCmd.AddCommand(sepaCmd)
 
-	occupation = sepaCmd.Flags().StringP("occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
-	subdivision = sepaCmd.Flags().StringP("subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
-	tag = sepaCmd.Flags().StringP("tag", "t", "", "Tag (if any)")
-	searchAll = sepaCmd.Flags().BoolP("all", "a", false, "Create file for ALL members")
+	sepaCmd.Flags().StringVarP(&occupation, "occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
+	sepaCmd.Flags().StringVarP(&subdivision, "subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
+	sepaCmd.Flags().StringVarP(&tag, "tag", "t", "", "Tag (if any)")
+	sepaCmd.Flags().BoolVarP(&searchAll, "all", "a", false, "Create file for ALL members")
+	nonMembers = sepaCmd.Flags().Bool("nonMembers", false, "Also search for non Members (NICHT_MITGLIED)")
+	schnupper = sepaCmd.Flags().Bool("schnupper", false, "Also search for Schnupper Members (SCHNUPPER_MITGLIED)")
+	inactive = sepaCmd.Flags().Bool("inactive", false, "Search for inactive Members (INAKTIV)")
 	sepaCmd.MarkFlagsOneRequired("occupation", "subdivision", "tag", "all")
 	sepaCmd.MarkFlagsMutuallyExclusive("all", "occupation")
 	sepaCmd.MarkFlagsMutuallyExclusive("all", "subdivision")

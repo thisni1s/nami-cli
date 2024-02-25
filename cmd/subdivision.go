@@ -9,9 +9,9 @@ import (
 
 // subdivisionCmd represents the subdivision command
 var subdivisionCmd = &cobra.Command{
-	Use:       "subdivision [woe|juffi|pfadi|rover|stavo|sonst]",
-	Short:     "Search for members in a specific subdivision",
-	Long:      `Prints all members in the specified subdivision
+	Use:   "subdivision [woe|juffi|pfadi|rover|stavo|sonst]",
+	Short: "Search for members in a specific subdivision",
+	Long: `Prints all members in the specified subdivision
     Possible subdivions are: "woe", "juffi", "pfadi", "rover", "stavo", "sonst"
 
 Example:
@@ -19,12 +19,15 @@ Example:
 	Args:      cobra.ExactArgs(1),
 	ValidArgs: []string{"woe", "juffi", "pfadi", "rover", "stavo", "sonst"},
 	Run: func(cmd *cobra.Command, args []string) {
-        ugId := CheckSubdivisionArg(args[0])
+		readConfig()
+		ugId := CheckSubdivisionArg(args[0])
 		Login()
-
-		list, err := namigo.Search(namiTypes.SearchValues{
+		sValues := namiTypes.SearchValues{
 			UntergliederungID: ugId,
-		})
+		}
+        addMemberTypes(&sValues)
+		list, err := namigo.Search(sValues)
+
 		if err != nil {
 			log.Println("Failed to get Members for provided Tag!")
 			log.Fatal(err)

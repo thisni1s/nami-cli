@@ -17,10 +17,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
-	"log"
 	"github.com/spf13/cobra"
 	namigo "github.com/thisni1s/nami-go"
 	namiTypes "github.com/thisni1s/nami-go/types"
+	"log"
 )
 
 // tagCmd represents the tag command
@@ -33,21 +33,24 @@ Example:
   nami-cli search tag 1337`,
 	Args: cobra.MatchAll(cobra.ExactArgs(1)),
 	Run: func(cmd *cobra.Command, args []string) {
+		readConfig()
 		tag := args[0]
 		//tag, err := strconv.Atoi(args[0])
 		//if err != nil {
 		//    log.Printf("Tag must be number!")
 		//    log.Fatal(err)
 		//}
-        Login()
-		list, err := namigo.Search(namiTypes.SearchValues{
+		Login()
+		sValues := namiTypes.SearchValues{
 			TagID: tag,
-		})
+		}
+        addMemberTypes(&sValues)
+		list, err := namigo.Search(sValues)
 		if err != nil {
 			log.Println("Failed to get Members for provided Tag!")
 			log.Fatal(err)
 		}
-        PrintSearchResult(list)
+		PrintSearchResult(list)
 
 	},
 }

@@ -19,41 +19,46 @@ var searchCmd = &cobra.Command{
     Different filters are provided with the use of subcommands.
     `,
 	Run: func(cmd *cobra.Command, args []string) {
+		readConfig()
 		var sValues namiTypes.SearchValues
-		if *firstname != "" {
-			sValues.Vorname = *firstname
+		if firstname != "" {
+			sValues.Vorname = firstname
 		}
-		if *lastname != "" {
-			sValues.Nachname = *lastname
+		if lastname != "" {
+			sValues.Nachname = lastname
 		}
-		if *occupation != "" {
-			sValues.TaetigkeitID = CheckOccupationArg(*occupation)
+		if occupation != "" {
+			sValues.TaetigkeitID = CheckOccupationArg(occupation)
 		}
-		if *subdivision != "" {
-			sValues.UntergliederungID = CheckSubdivisionArg(*subdivision)
+		if subdivision != "" {
+			sValues.UntergliederungID = CheckSubdivisionArg(subdivision)
 		}
-		if *tag != "" {
-			sValues.TagID = *tag
+		if tag != "" {
+			sValues.TagID = tag
 		}
-        Login()
+        addMemberTypes(&sValues)
+		Login()
 		list, err := namigo.Search(sValues)
 		if err != nil {
 			log.Println("Something went wrong searching for Members!")
 			log.Fatal(err)
 		}
-        PrintSearchResult(list)
+		PrintSearchResult(list)
 	},
 }
 
 var email *bool
 var jsono *bool
 var fullo *bool
+var nonMembers *bool
+var schnupper *bool
+var inactive *bool
 
-var firstname *string
-var lastname *string
-var occupation *string
-var subdivision *string
-var tag *string
+var firstname string
+var lastname string
+var occupation string
+var subdivision string
+var tag string
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
@@ -65,30 +70,53 @@ func init() {
 	email = searchCmd.PersistentFlags().BoolP("email", "e", false, "Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!) ")
 	jsono = searchCmd.PersistentFlags().BoolP("json", "j", false, "Output found members in JSON format")
 	fullo = searchCmd.PersistentFlags().BoolP("full", "f", false, "Fully output found members (in YAML format)")
-    searchCmd.MarkFlagsMutuallyExclusive("email", "json", "full")
+	nonMembers = searchCmd.PersistentFlags().Bool("nonMembers", false, "Also search for non Members (NICHT_MITGLIED)")
+	schnupper = searchCmd.PersistentFlags().Bool("schnupper", false, "Also search for Schnupper Members (SCHNUPPER_MITGLIED)")
+	inactive = searchCmd.PersistentFlags().Bool("inactive", false, "Search for inactive Members (INAKTIV)")
+	searchCmd.MarkFlagsMutuallyExclusive("email", "json", "full")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	firstname= searchCmd.Flags().StringP("fname", "n", "", "First name (if any)")
-	lastname = searchCmd.Flags().StringP("lname", "l", "", "Last name (if any)")
-	occupation = searchCmd.Flags().StringP("occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
-	subdivision = searchCmd.Flags().StringP("subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
-	tag = searchCmd.Flags().StringP("tag", "t", "", "Tag (if any)")
+	//firstname= searchCmd.Flags().StringP("fname", "n", "", "First name (if any)")
+	searchCmd.Flags().StringVarP(&firstname, "fname", "n", "", "First name (if any)")
+	searchCmd.Flags().StringVarP(&lastname, "lname", "l", "", "Last name (if any)")
+	searchCmd.Flags().StringVarP(&occupation, "occupation", "o", "", "Occupation (if any) for options see 'occupation' sub command help")
+	searchCmd.Flags().StringVarP(&subdivision, "subdivision", "d", "", "Subdivision (if any) for options see 'subdivision' sub command help")
+	searchCmd.Flags().StringVarP(&tag, "tag", "t", "", "Tag (if any)")
 	searchCmd.MarkFlagsOneRequired("fname", "lname", "occupation", "subdivision", "tag")
+}
+
+func addMemberTypes(sValues *namiTypes.SearchValues) {
+    println("called addmember types")
+    sValues.MglTypeID = namiTypes.MITGLIED
+    if *nonMembers == true {
+        sValues.MglTypeID = namiTypes.NICHTMITGLIED
+    }
+    if *schnupper == true {
+        sValues.MglTypeID = namiTypes.SCHNUPPER
+    }
+    if *inactive == false {
+        println("inactive is false")
+        sValues.MglStatusID = namiTypes.AKTIV
+    } else {
+        println("inactive is true")
+        sValues.MglStatusID = namiTypes.INAKTIV
+    }
+    fmt.Println(*sValues)
 }
 
 func PrintSearchResult(members []namiTypes.SearchMember) {
 	if *email {
 		for _, mem := range members {
 			if mem.Email != "" || mem.EmailVertretungsberechtigter != "" {
-                var mail string 
-                if mem.Email != "" {
-                    mail = mem.Email
-                } else {
-                    mail = mem.EmailVertretungsberechtigter
-                }
-                fmt.Printf("%s %s <%s> \n", mem.Vorname, mem.Nachname, mail)
+				var mail string
+				if mem.Email != "" {
+					mail = mem.Email
+				} else {
+					mail = mem.EmailVertretungsberechtigter
+				}
+				fmt.Printf("%s %s <%s> \n", mem.Vorname, mem.Nachname, mail)
 			}
 		}
 	} else if *jsono {

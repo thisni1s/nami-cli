@@ -53,49 +53,51 @@ func Execute() {
 	}
 }
 
-var config namiTypes.Config 
+var config namiTypes.Config
+var cfgHandle *string
 
 func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	var cfgFile string
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ~/.nami.yaml)")
-	if cfgFile == "" {
-        home, err := os.UserHomeDir()
-        if err != nil {
-            log.Fatal("Error finding your home directory!")
-        }
-        cfgFile = fmt.Sprintf("%s/.nami.yml", home)
-	}
-
-	file, err := os.ReadFile(cfgFile)
-	if err != nil {
-        log.Println("Failed to read config file!")
-        log.Fatal(err)
-	}
-
-	err = yaml.Unmarshal(file, &config)
-	if err != nil {
-        log.Println("Failed to read config file!")
-        log.Fatal(err)
-	}
-
+	cfgHandle = rootCmd.PersistentFlags().String("config", "", "config file (default is ~/.nami.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+func readConfig() {
+	if *cfgHandle == "" {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			log.Fatal("Error finding your home directory!")
+		}
+		*cfgHandle = fmt.Sprintf("%s/.nami.yml", home)
+	}
+
+	file, err := os.ReadFile(*cfgHandle)
+	if err != nil {
+		log.Println("Failed to read config file!")
+		log.Fatal(err)
+	}
+
+	err = yaml.Unmarshal(file, &config)
+	if err != nil {
+		log.Println("Failed to read config file!")
+		log.Fatal(err)
+	}
+}
+
 func Login() {
-    err := namigo.Login(config.Username, config.Password)
-    fmt.Println("Logged in as user: ", config.Username)
-    if err != nil {
-        log.Println("Failed to login!")
-        log.Fatal(err)
-    }
+	err := namigo.Login(config.Username, config.Password)
+	fmt.Println("Logged in as user: ", config.Username)
+	if err != nil {
+		log.Println("Failed to login!")
+		log.Fatal(err)
+	}
 }
 
 func GetGroupId() string {
-    return config.Gruppierung
+	return config.Gruppierung
 }
