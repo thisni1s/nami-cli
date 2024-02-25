@@ -47,12 +47,12 @@ var searchCmd = &cobra.Command{
 	},
 }
 
-var email *bool
-var jsono *bool
-var fullo *bool
-var nonMembers *bool
-var schnupper *bool
-var inactive *bool
+var email bool
+var jsono bool
+var fullo bool
+var nonMembers bool
+var schnupper bool
+var inactive bool
 
 var firstname string
 var lastname string
@@ -67,12 +67,12 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	email = searchCmd.PersistentFlags().BoolP("email", "e", false, "Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!) ")
-	jsono = searchCmd.PersistentFlags().BoolP("json", "j", false, "Output found members in JSON format")
-	fullo = searchCmd.PersistentFlags().BoolP("full", "f", false, "Fully output found members (in YAML format)")
-	nonMembers = searchCmd.PersistentFlags().Bool("nonMembers", false, "Also search for non Members (NICHT_MITGLIED)")
-	schnupper = searchCmd.PersistentFlags().Bool("schnupper", false, "Also search for Schnupper Members (SCHNUPPER_MITGLIED)")
-	inactive = searchCmd.PersistentFlags().Bool("inactive", false, "Search for inactive Members (INAKTIV)")
+	searchCmd.PersistentFlags().BoolVarP(&email, "email", "e", false, "Output found members in mailbox format e.g. 'John Doe <john@example.com>' (only prints members that have a mail address!!) ")
+	searchCmd.PersistentFlags().BoolVarP(&jsono, "json", "j", false, "Output found members in JSON format")
+	searchCmd.PersistentFlags().BoolVarP(&fullo, "full", "f", false, "Fully output found members (in YAML format)")
+	searchCmd.PersistentFlags().BoolVar(&nonMembers, "nonMembers", false, "Also search for non Members (NICHT_MITGLIED)")
+	searchCmd.PersistentFlags().BoolVar(&schnupper, "schnupper", false, "Also search for Schnupper Members (SCHNUPPER_MITGLIED)")
+	searchCmd.PersistentFlags().BoolVar(&inactive ,"inactive", false, "Search for inactive Members (INAKTIV)")
 	searchCmd.MarkFlagsMutuallyExclusive("email", "json", "full")
 
 	// Cobra supports local flags which will only run when this command
@@ -88,26 +88,22 @@ func init() {
 }
 
 func addMemberTypes(sValues *namiTypes.SearchValues) {
-    println("called addmember types")
     sValues.MglTypeID = namiTypes.MITGLIED
-    if *nonMembers == true {
+    if nonMembers == true {
         sValues.MglTypeID = namiTypes.NICHTMITGLIED
     }
-    if *schnupper == true {
+    if schnupper == true {
         sValues.MglTypeID = namiTypes.SCHNUPPER
     }
-    if *inactive == false {
-        println("inactive is false")
+    if inactive == false {
         sValues.MglStatusID = namiTypes.AKTIV
     } else {
-        println("inactive is true")
         sValues.MglStatusID = namiTypes.INAKTIV
     }
-    fmt.Println(*sValues)
 }
 
 func PrintSearchResult(members []namiTypes.SearchMember) {
-	if *email {
+	if email {
 		for _, mem := range members {
 			if mem.Email != "" || mem.EmailVertretungsberechtigter != "" {
 				var mail string
@@ -119,10 +115,10 @@ func PrintSearchResult(members []namiTypes.SearchMember) {
 				fmt.Printf("%s %s <%s> \n", mem.Vorname, mem.Nachname, mail)
 			}
 		}
-	} else if *jsono {
+	} else if jsono {
 		s, _ := json.MarshalIndent(members, "", "    ")
 		fmt.Printf("%s, \n", s)
-	} else if *fullo {
+	} else if fullo {
 		s, _ := yaml.Marshal(members)
 		fmt.Printf("%s, \n", s)
 	} else {
@@ -192,6 +188,8 @@ func CheckSubdivisionArg(input string) namiTypes.UNTERGLIEDERUNG {
 		ugId = namiTypes.UG_STAVO
 	case "sonst":
 		ugId = namiTypes.UG_SONST
+    case "biber":
+        ugId = namiTypes.UG_BIBER
 	default:
 		log.Fatal("You need to provide a subdivison!")
 	}

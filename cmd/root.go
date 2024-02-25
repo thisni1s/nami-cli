@@ -91,7 +91,6 @@ func readConfig() {
 
 func Login() {
 	err := namigo.Login(config.Username, config.Password)
-	fmt.Println("Logged in as user: ", config.Username)
 	if err != nil {
 		log.Println("Failed to login!")
 		log.Fatal(err)

@@ -17,7 +17,7 @@ var subdivisionCmd = &cobra.Command{
 Example:
   nami-cli search subdivision rover`,
 	Args:      cobra.ExactArgs(1),
-	ValidArgs: []string{"woe", "juffi", "pfadi", "rover", "stavo", "sonst"},
+	ValidArgs: []string{"biber", "woe", "juffi", "pfadi", "rover", "stavo", "sonst"},
 	Run: func(cmd *cobra.Command, args []string) {
 		readConfig()
 		ugId := CheckSubdivisionArg(args[0])
