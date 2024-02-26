@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -25,11 +24,10 @@ Examples:
 	Run: func(cmd *cobra.Command, args []string) {
 		readConfig()
 		var searchCfg namiTypes.SearchValues
-        addMemberTypes(&searchCfg)
+		addMemberTypes(&searchCfg)
 		Login()
 		if len(args) == 1 {
 			searchCfg.Vorname = args[0]
-            fmt.Println(searchCfg)
 			list, err := namigo.Search(searchCfg)
 			if err != nil {
 				log.Println("Failed to get Members for provided first name!")
@@ -37,7 +35,6 @@ Examples:
 			}
 			searchCfg.Vorname = ""
 			searchCfg.Nachname = args[0]
-            fmt.Println(searchCfg)
 			list2, err := namigo.Search(searchCfg)
 			if err != nil {
 				log.Println("Failed to get Members for provided last name!")
