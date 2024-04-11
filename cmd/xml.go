@@ -99,7 +99,7 @@ func getMemberDetails(searchres *[]namiTypes.SearchMember) *[]namiTypes.Member {
                     if err != nil {
                         endDate = time.Now().Add(time.Second * 86400) // if there is no end date set one for tomorrow
                     }
-					if act.Taetigkeit == "€ LeiterIn (6)"  && !time.Now().After(endDate) {
+					if (act.Taetigkeit == "€ LeiterIn (6)" || act.Taetigkeit == "€ Vorsitzende(r) (13)") && !time.Now().After(endDate) {
 						leader = true
 					}
                     if (act.Taetigkeit == "€ passive Mitgliedschaft (39)" || act.Taetigkeit == "€ sonst. Mitglied (40)") && !time.Now().After(endDate) {
