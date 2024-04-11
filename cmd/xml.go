@@ -93,14 +93,26 @@ func getMemberDetails(searchres *[]namiTypes.SearchMember) *[]namiTypes.Member {
 					log.Printf("error getting activities for member: %s %s \n", mem.Vorname, mem.Nachname)
 				}
 				var leader bool
+                var passive bool
 				for _, act := range activs {
-					if act.Taetigkeit == "€ LeiterIn (6)" {
+                    endDate, err := time.Parse("2006-01-02 03:04:05", act.AktivBis) // nur aktuelle Actvitities
+                    if err != nil {
+                        endDate = time.Now().Add(time.Second * 86400) // if there is no end date set one for tomorrow
+                    }
+					if act.Taetigkeit == "€ LeiterIn (6)"  && !time.Now().After(endDate) {
 						leader = true
 					}
+                    if (act.Taetigkeit == "€ passive Mitgliedschaft (39)" || act.Taetigkeit == "€ sonst. Mitglied (40)") && !time.Now().After(endDate) {
+                        passive = true
+                    }
 				}
-				if leader {
-					member.GenericField1 = "leader"
-				}
+                // being a current leader is more important then havin some form of passiver activity
+                if passive {
+                    member.GenericField1 = "passive"
+                }
+                if leader {
+                    member.GenericField1 = "leader"
+                }
 			}
 			res[i] = member
 			progress <- 1
@@ -225,6 +237,8 @@ func calcAmount(beitragsart int, taetigkeit string, mgltype string) float64 {
 		return *fixedFee
 	} else if taetigkeit == "leader" {
 		return sepaCfg.FeeLeader
+    } else if taetigkeit == "passive" {
+        return sepaCfg.FeePassive
 	} else if beitragsart == 1 || beitragsart == 4 {
 		return sepaCfg.FeeFull
 	} else if beitragsart == 2 || beitragsart == 5 {
