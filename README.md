@@ -4,6 +4,8 @@ nami-cli allows you to interact with the DPSG NaMi and get information about you
 
 It is written in Go and uses the [nami-go](https://github.com/thisni1s/nami-go) library for interacting with the NaMi and [Cobra](https://github.com/spf13/cobra) for building the CLI Application. 
 
+It uses embedded information about banks downloaded from the `schwifty` Python project: [schwifty](https://github.com/mdomke/schwifty/tree/main/schwifty/bank_registry)
+
 ## Configuration
 
 A config file containing your credentials is needed for this to work.
